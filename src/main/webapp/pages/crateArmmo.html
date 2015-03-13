@@ -1,0 +1,779 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>Scrips para Arma 2</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+	<link rel="stylesheet" href="../css/bootstrap-theme.min.css">
+
+
+    <!-- Custom styles for this template -->
+    <link href="../css/starter-template.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="../js/ie-emulation-modes-warning.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Scrips para Arma 2</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="../sobre.html">Sobre</a></li>
+            <li><a href="../contato.html">Contato</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+
+      <div class="starter-template">
+<i>No init do objeto</i><code>nul = [this] execVM "crate.sqf";</code></br>
+<strong>crate.sqf</strong>
+<pre>
+_crate = _this select 0;
+
+clearWeaponCargo _crate;
+clearMagazineCargo _crate;
+
+_crate addWeaponCargo ["FN_FAL",20];
+_crate addWeaponCargo ["G36C",20];
+_crate addWeaponCargo ["G36_C_SD_eotech",20];
+_crate addWeaponCargo ["G36K",20];
+_crate addWeaponCargo ["M16A4_ACG_GL",20];
+_crate addWeaponCargo ["M4A1_HWS_GL_camo",20];
+_crate addWeaponCargo ["M4A1_HWS_GL_SD_Camo",20];
+_crate addWeaponCargo ["MP5A5",20];
+_crate addWeaponCargo ["MP5SD",20];
+_crate addWeaponCargo ["M240",20];
+_crate addWeaponCargo ["M24",20];
+_crate addWeaponCargo ["Colt1911",20];
+_crate addWeaponCargo ["M9",20];
+_crate addWeaponCargo ["M136",20];
+_crate addWeaponCargo ["SMAW",20];
+_crate addWeaponCargo ["Binocular",20];
+_crate addWeaponCargo ["M9SD",20];
+_crate addWeaponCargo ["M8_carbine",20];
+_crate addWeaponCargo ["M8_carbineGL",20];
+_crate addWeaponCargo ["M8_compact",20];
+_crate addMagazineCargo ["20Rnd_762x51_FNFAL",100];
+_crate addMagazineCargo ["30Rnd_556x45_G36SD",100];
+_crate addMagazineCargo ["30Rnd_556x45_Stanag",100];
+_crate addMagazineCargo ["30Rnd_556x45_StanagSD",100];
+_crate addMagazineCargo ["30Rnd_9x19_MP5",100];
+_crate addMagazineCargo ["30Rnd_9x19_MP5SD",100];
+_crate addMagazineCargo ["1Rnd_HE_M203",100];
+_crate addMagazineCargo ["1Rnd_Smoke_M203",100];
+_crate addMagazineCargo ["1Rnd_SmokeRed_M203",100];
+_crate addMagazineCargo ["1Rnd_SmokeGreen_M203",100];
+_crate addMagazineCargo ["1Rnd_SmokeYellow_M203",100];
+_crate addMagazineCargo ["100Rnd_762x51_M240",100];
+_crate addMagazineCargo ["5Rnd_762x51_M24",100];
+_crate addMagazineCargo ["7Rnd_45ACP_1911",100];
+_crate addMagazineCargo ["15Rnd_9x19_M9",100];
+_crate addMagazineCargo ["15Rnd_9x19_M9SD",100];
+_crate addMagazineCargo ["M136",20];
+_crate addMagazineCargo ["SMAW_HEAA",20];
+_crate addMagazineCargo ["SMAW_HEDP",20];
+_crate addMagazineCargo ["HandGrenade_West",50];
+_crate addMagazineCargo ["SmokeShell",50];
+_crate addMagazineCargo ["SmokeShellRed",50];
+_crate addMagazineCargo ["SmokeShellGreen",50];
+_crate addMagazineCargo ["SmokeShellYellow",50];
+_crate addMagazineCargo ["TimeBomb",50];
+_crate addMagazineCargo ["PipeBomb",50];
+_crate addMagazineCargo ["Mine",50];
+</pre>
+<pre>
+_crate = _this select 0;
+
+clearWeaponCargo _crate;
+clearMagazineCargo _crate;
+
+_crate addWeaponCargo ["FN_FAL",5];
+_crate addMagazineCargo ["20Rnd_762x51_FNFAL",50];
+
+_crate addWeaponCargo ["M14_EP1",2];
+_crate addMagazineCargo ["20Rnd_762x51_DMR",30];
+
+_crate addWeaponCargo ["M1014",2];
+_crate addMagazineCargo ["8Rnd_B_Beneli_74Slug",30];
+
+_crate addWeaponCargo ["AKS_74_U",2];
+_crate addMagazineCargo ["30Rnd_545x39_AK",30];
+
+_crate addWeaponCargo ["AK_74",2];
+_crate addMagazineCargo ["30Rnd_545x39_AK",30];
+
+_crate addWeaponCargo ["M16A2",2];
+_crate addMagazineCargo ["30Rnd_556x45_Stanag",30];
+_crate addMagazineCargo ["100Rnd_556x45_BetaCMag",5];
+
+_crate addWeaponCargo ["M16A2GL",2];
+_crate addMagazineCargo ["30Rnd_556x45_Stanag",10];
+
+_crate addWeaponCargo ["M16A4_GL",2];
+_crate addMagazineCargo ["30Rnd_556x45_Stanag",10];
+
+_crate addWeaponCargo ["M4A1",2];
+_crate addMagazineCargo ["30Rnd_556x45_Stanag",10];
+
+_crate addWeaponCargo ["M4A1_Aim",2];
+_crate addMagazineCargo ["30Rnd_556x45_Stanag",10];
+
+_crate addWeaponCargo ["M4A1_HWS_GL",2];
+_crate addMagazineCargo ["100Rnd_556x45_BetaCMag",10];
+
+_crate addWeaponCargo ["M4A1_HWS_GL_camo",2];
+
+_crate addWeaponCargo ["MP5A5",2];
+_crate addMagazineCargo ["30Rnd_9x19_MP5",10];
+
+_crate addMagazineCargo ["1Rnd_HE_M203",100];
+_crate addMagazineCargo ["1Rnd_Smoke_M203",100];
+_crate addMagazineCargo ["1Rnd_SmokeRed_M203",100];
+_crate addMagazineCargo ["1Rnd_SmokeGreen_M203",100];
+_crate addMagazineCargo ["1Rnd_SmokeYellow_M203",100];
+_crate addMagazineCargo ["100Rnd_762x51_M240",100];
+_crate addMagazineCargo ["5Rnd_762x51_M24",100];
+_crate addMagazineCargo ["7Rnd_45ACP_1911",100];
+_crate addMagazineCargo ["15Rnd_9x19_M9",100];
+_crate addMagazineCargo ["15Rnd_9x19_M9SD",100];
+
+_crate addMagazineCargo ["SmokeShell",10];
+_crate addMagazineCargo ["SmokeShellRed",10];
+_crate addMagazineCargo ["SmokeShellGreen",10];
+_crate addMagazineCargo ["SmokeShellYellow",10];
+_crate addMagazineCargo ["TimeBomb",10];
+_crate addMagazineCargo ["PipeBomb",10];
+
+_crate addWeaponCargo ["CHN_Antidote",20];
+
+</pre>
+<pre>
+_crate = _this select 0;
+
+clearWeaponCargo _crate;
+clearMagazineCargo _crate;
+
+_crate addWeaponCargo ["FN_FAL",3];
+_crate addMagazineCargo ["20Rnd_762x51_FNFAL",20];
+
+_crate addWeaponCargo ["M14_EP1",1];
+_crate addMagazineCargo ["20Rnd_762x51_DMR",10];
+
+_crate addWeaponCargo ["M1014",2];
+_crate addMagazineCargo ["8Rnd_B_Beneli_74Slug",310];
+
+_crate addWeaponCargo ["M16A2",1];
+_crate addMagazineCargo ["30Rnd_556x45_Stanag",20];
+_crate addMagazineCargo ["100Rnd_556x45_BetaCMag",5];
+
+_crate addWeaponCargo ["M16A2GL",1];
+_crate addMagazineCargo ["30Rnd_556x45_Stanag",10];
+
+_crate addWeaponCargo ["M4A1",1];
+_crate addMagazineCargo ["30Rnd_556x45_Stanag",10];
+
+_crate addWeaponCargo ["M4A1_Aim",1];
+_crate addMagazineCargo ["30Rnd_556x45_Stanag",10];
+
+_crate addWeaponCargo ["MP5A5",2];
+_crate addMagazineCargo ["30Rnd_9x19_MP5",10];
+
+_crate addMagazineCargo ["1Rnd_HE_M203",100];
+</pre>
+<pre>
+//initialize unit
+private ["_crate"];
+_crate = _this select 0;
+
+if(local _crate) then
+{
+	//remove all weapons and magazines
+	clearWeaponCargo _crate;
+	clearMagazineCargo _crate;
+	
+	//weapons
+			//west
+			//rifles
+			//m16
+			_crate addWeaponCargo["M16A2",50];
+			_crate addWeaponCargo["M16A2GL",50];
+			_crate addWeaponCargo["ACE_M16A4_IRON",50];
+			_crate addWeaponCargo["M16A4",50];
+			_crate addWeaponCargo["M16A4_GL",50];
+			_crate addWeaponCargo["M16A4_ACG",50];
+			_crate addWeaponCargo["M16A4_ACG_GL",50];
+
+			//m4
+			_crate addWeaponCargo["M4A1",50];
+			_crate addWeaponCargo["ACE_M4A1_GL",50];
+			_crate addWeaponCargo["ACE_M4A1_GL_SD",50]; 
+			_crate addWeaponCargo["M4A1_AIM",50];
+			_crate addWeaponCargo["ACE_M4A1_AIM_SD",50];
+			_crate addWeaponCargo["M4A1_AIM_CAMO",50];
+			_crate addWeaponCargo["M4A1_AIM_SD_CAMO",50];
+			_crate addWeaponCargo["ACE_M4A1_EOTECH",50];
+			_crate addWeaponCargo["M4A1_HWS_GL",50];
+			_crate addWeaponCargo["M4A1_HWS_GL_CAMO",50];
+			_crate addWeaponCargo["M4A1_HWS_GL_SD_CAMO",50];
+			_crate addWeaponCargo["ACE_M4A1_ACOG",50];
+			_crate addWeaponCargo["ACE_M4A1_ACOG_SD",50];
+			_crate addWeaponCargo["M4A1_RCO_GL",50];
+
+			//m4socom
+			_crate addWeaponCargo["ACE_SOC_M4A1_SD_9",50];
+			_crate addWeaponCargo["ACE_SOC_M4A1_AIM",50];
+			_crate addWeaponCargo["ACE_SOC_M4A1_AIM_SD",50];
+			_crate addWeaponCargo["ACE_SOC_M4A1_EOTECH",50];
+			_crate addWeaponCargo["ACE_SOC_M4A1_GL_AIMPOINT",50];
+			_crate addWeaponCargo["ACE_SOC_M4A1_RCO_GL",50];
+			_crate addWeaponCargo["ACE_SOC_M4A1_GL_13",50];
+			_crate addWeaponCargo["ACE_SOC_M4A1_GL_EOTECH",50];
+			_crate addWeaponCargo["ACE_SOC_M4A1_SHORTDOT",50];
+			_crate addWeaponCargo["ACE_SOC_M4A1_SHORTDOT_SD",50];
+
+			//other
+			_crate addWeaponCargo["M8_CARBINE",50];
+			_crate addWeaponCargo["M8_CARBINEGL",50];
+			_crate addWeaponCargo["M8_COMPACT",50];
+			_crate addWeaponCargo["G36A",50];
+			_crate addWeaponCargo["G36K",50];
+			_crate addWeaponCargo["G36C",50];
+			_crate addWeaponCargo["G36_C_SD_EOTECH",50];
+
+			//sniper rifles
+			_crate addWeaponCargo["M4SPR",50];
+			_crate addWeaponCargo["ACE_M4SPR_SD",50];
+			_crate addWeaponCargo["M8_SHARPSHOOTER",50];
+			_crate addWeaponCargo["ACE_M110",50];
+			_crate addWeaponCargo["ACE_M110_SD",50];
+			_crate addWeaponCargo["DMR",50];
+			_crate addWeaponCargo["M24",50];
+			_crate addWeaponCargo["M40A3",50];
+			_crate addWeaponCargo["ACE_TAC50",50];
+			_crate addWeaponCargo["ACE_TAC50_SD",50];
+			_crate addWeaponCargo["ACE_AS50",50];
+			_crate addWeaponCargo["M107",50];
+			_crate addWeaponCargo["ACE_M109",50];
+
+			//machineguns
+			_crate addWeaponCargo["M8_SAW",50];
+			_crate addWeaponCargo["MG36",50];
+			_crate addWeaponCargo["M249",50];
+			_crate addWeaponCargo["ACE_M249PARA",50];
+			_crate addWeaponCargo["ACE_M249PARA_M145",50];
+			_crate addWeaponCargo["M240",50];
+			_crate addWeaponCargo["ACE_M240G_M145",50];
+			_crate addWeaponCargo["MK_48",50];
+			_crate addWeaponCargo["ACE_M60",50];
+
+			//submachineguns
+			_crate addWeaponCargo["ACE_MP5A4",50];
+			_crate addWeaponCargo["MP5A5",50];
+			_crate addWeaponCargo["MP5SD",50];
+			_crate addWeaponCargo["ACE_UMP45",50];
+			_crate addWeaponCargo["ACE_UMP45_SD",50];
+
+			//shotguns
+			_crate addWeaponCargo["M1014",50];
+
+			//pistols
+			_crate addWeaponCargo["COLT1911",50];
+			_crate addWeaponCargo["M9",50];
+			_crate addWeaponCargo["M9SD",50];
+			_crate addWeaponCargo["ACE_P226",50];
+			_crate addWeaponCargo["ACE_USP",50];
+			_crate addWeaponCargo["ACE_USPSD",50];
+			_crate addWeaponCargo["ACE_GLOCK17",50];
+			_crate addWeaponCargo["ACE_GLOCK18",50];
+			_crate addWeaponCargo["ACE_FLAREGUN",50];
+
+			//launchers
+			_crate addWeaponCargo["ACE_M79",50];
+			_crate addWeaponCargo["ACE_M79_CQB",50];
+			_crate addWeaponCargo["ACE_M32",50];
+			_crate addWeaponCargo["M136",50];
+			_crate addWeaponCargo["ACE_M136_CSRS",50];
+			_crate addWeaponCargo["SMAW",50];
+			_crate addWeaponCargo["JAVELIN",50];
+			_crate addWeaponCargo["STINGER",50];
+
+			//crew-served
+			_crate addWeaponCargo["ACE_M2HBPROXY",50];
+			_crate addWeaponCargo["ACE_MK19MOD3PROXY",50];
+			_crate addWeaponCargo["ACE_M3TRIPODPROXY",50];
+
+			//east
+			//rifles
+			//ak-47
+			_crate addWeaponCargo["AK_47_M",50];
+			_crate addWeaponCargo["AK_47_S",50];
+			_crate addWeaponCargo["AKS_GOLD",50];
+
+			//ak-74
+			_crate addWeaponCargo["AK_74",50];
+			_crate addWeaponCargo["AK_74_GL",50];
+			_crate addWeaponCargo["AKS_74_KOBRA",50];
+			_crate addWeaponCargo["AKS_74_PSO",50];
+			_crate addWeaponCargo["AKS_74_U",50];
+			_crate addWeaponCargo["AKS_74_UN_KOBRA",50];
+
+			//ak-107
+			_crate addWeaponCargo["AK_107_KOBRA",50];
+			_crate addWeaponCargo["AK_107_GL_KOBRA",50];
+			_crate addWeaponCargo["AK_107_PSO",50];
+			_crate addWeaponCargo["AK_107_GL_PSO",50];
+
+			//groza
+			_crate addWeaponCargo["ACE_OC14",50];
+			_crate addWeaponCargo["ACE_OC14SP",50];
+			_crate addWeaponCargo["ACE_OC14GL",50];
+			_crate addWeaponCargo["ACE_OC14GLSP",50];
+			_crate addWeaponCargo["ACE_OC14SD",50];
+			_crate addWeaponCargo["ACE_OC14SDSP",50];
+			_crate addWeaponCargo["ACE_GR1",50];
+			_crate addWeaponCargo["ACE_GR1SP",50];
+			_crate addWeaponCargo["ACE_GR1SD",50];
+			_crate addWeaponCargo["ACE_GR1SDSP",50];
+
+			//other
+			_crate addWeaponCargo["ACE_SKS",50];
+			_crate addWeaponCargo["ACE_SA58",50];
+			_crate addWeaponCargo["ACE_FAL_PARA",50];
+
+			//sniper rifles
+			_crate addWeaponCargo["HUNTINGRIFLE",50];
+			_crate addWeaponCargo["VSS_VINTOREZ",50];
+			_crate addWeaponCargo["SVD",50];
+			_crate addWeaponCargo["SVD_CAMO",50];
+			_crate addWeaponCargo["KSVK",50];
+
+			//machineguns
+			_crate addWeaponCargo["RPK_74",50];
+			_crate addWeaponCargo["PK",50];
+			_crate addWeaponCargo["PECHENEG",50];
+
+			//submachineguns
+			_crate addWeaponCargo["BIZON",50];
+			_crate addWeaponCargo["BIZON_SILENCED",50];
+
+			//shotguns
+			_crate addWeaponCargo["SAIGA12K",50];
+
+			//pistols
+			_crate addWeaponCargo["ACE_TT",50];
+			_crate addWeaponCargo["MAKAROV",50];
+			_crate addWeaponCargo["MAKAROVSD",50];
+			_crate addWeaponCargo["ACE_SCORPION",50];
+
+			//launchers
+			_crate addWeaponCargo["RPG7V",50];
+			_crate addWeaponCargo["RPG18",50];
+			_crate addWeaponCargo["ACE_RPG22",50];
+			_crate addWeaponCargo["ACE_RPG27",50];
+			_crate addWeaponCargo["ACE_RPG29",50];
+			_crate addWeaponCargo["METISLAUNCHER",50];
+			_crate addWeaponCargo["STRELA",50];
+			_crate addWeaponCargo["IGLA",50];
+
+			//crew-served
+			_crate addWeaponCargo["ACE_DSHKMPROXY",50];
+			_crate addWeaponCargo["ACE_KORDPROXY",50];
+			_crate addWeaponCargo["ACE_AGS30PROXY",50];
+			_crate addWeaponCargo["ACE_AGS30TRIPODPROXY",50];
+			_crate addWeaponCargo["ACE_KONKURSTRIPODPROXY",50];
+			_crate addWeaponCargo["ACE_6T7TRIPODPROXY",50];
+
+			//pla
+			//rifles
+			_crate addWeaponCargo["QBZ95",50];
+			_crate addWeaponCargo["QBZ95_GL",50];
+			_crate addWeaponCargo["QBZ95_SD",50];
+			_crate addWeaponCargo["QBZ95_SP",50];
+			_crate addWeaponCargo["QBZ95_TI",50];
+			_crate addWeaponCargo["QBZ03",50];
+			_crate addWeaponCargo["QBZ03_SP",50];
+			_crate addWeaponCargo["QBZ03_TI",50];
+			_crate addWeaponCargo["QBZ81",50];
+
+			//sniper rifles
+			_crate addWeaponCargo["QBU88",50];
+			_crate addWeaponCargo["M99",50];
+
+			//machineguns
+			_crate addWeaponCargo["QBB95",50];
+			_crate addWeaponCargo["QJY88",50];
+
+			//submachineguns
+			_crate addWeaponCargo["QCQ05",50];
+
+			//pistols
+			_crate addWeaponCargo["QSZ92",50];
+			_crate addWeaponCargo["QSZ92_LS",50];
+			_crate addWeaponCargo["QSW06",50];
+
+			//launchers
+			_crate addWeaponCargo["PF89B",50];
+			_crate addWeaponCargo["PF98",50];
+			_crate addWeaponCargo["HN5B",50];
+
+	//magazines
+			//west
+			//rifles
+			_crate addMagazineCargo["30RND_556X45_STANAG",50];
+			_crate addMagazineCargo["ACE_30RND_556X45_T_STANAG",50];
+			_crate addMagazineCargo["30RND_556X45_STANAGSD",50];
+			_crate addMagazineCargo["30RND_556X45_G36",50];
+			_crate addMagazineCargo["30RND_556X45_G36SD",50];
+
+			//under-barrel grenade launchers
+			_crate addMagazineCargo["1RND_HE_M203",50];
+			_crate addMagazineCargo["ACE_1RND_CS_M203",50];
+			_crate addMagazineCargo["ACE_HUNTIR_M203",50];
+			_crate addMagazineCargo["FLAREWHITE_M203",50];
+			_crate addMagazineCargo["FLAREGREEN_M203",50];
+			_crate addMagazineCargo["FLARERED_M203",50];
+			_crate addMagazineCargo["FLAREYELLOW_M203",50];
+			_crate addMagazineCargo["ACE_SSWHITE_M203",50];
+			_crate addMagazineCargo["ACE_SSGREEN_M203",50];
+			_crate addMagazineCargo["ACE_SSRED_M203",50];
+			_crate addMagazineCargo["ACE_SSYELLOW_M203",50];
+			_crate addMagazineCargo["1RND_SMOKE_M203",50];
+			_crate addMagazineCargo["1RND_SMOKEGREEN_M203",50];
+			_crate addMagazineCargo["1RND_SMOKERED_M203",50];
+			_crate addMagazineCargo["1RND_SMOKEYELLOW_M203",50];
+
+			//sniper rifles
+			_crate addMagazineCargo["20RND_556X45_STANAG",50];
+			_crate addMagazineCargo["20RND_762X51_DMR",50];
+			_crate addMagazineCargo["ACE_20RND_762X51_SB_M110",50];
+			_crate addMagazineCargo["ACE_20RND_762X51_S_M110",50];
+			_crate addMagazineCargo["ACE_20RND_762X51_T_M110",50];
+			_crate addMagazineCargo["5RND_762X51_M24",50];
+			_crate addMagazineCargo["ACE_5RND_127X99_B_TAC50",50];
+			_crate addMagazineCargo["ACE_5RND_127X99_S_TAC50",50];
+			_crate addMagazineCargo["ACE_5RND_127X99_T_TAC50",50];
+			_crate addMagazineCargo["10RND_127X99_M107",50];
+			_crate addMagazineCargo["ACE_5RND_25X59_HEDP_BARRETT",50];
+
+			//machineguns
+			_crate addMagazineCargo["100RND_556X45_BETACMAG",50];
+			_crate addMagazineCargo["200RND_556X45_M249",50];
+			_crate addMagazineCargo["ACE_200RND_556X45_T_M249",50];
+			_crate addMagazineCargo["100RND_762X51_M240",50];
+
+			//submachineguns
+			_crate addMagazineCargo["30RND_9X19_MP5",50];
+			_crate addMagazineCargo["30RND_9X19_MP5SD",50];
+			_crate addMagazineCargo["ACE_25RND_1143X23_B_UMP45",50];
+
+			//shotguns
+			_crate addMagazineCargo["8RND_B_BENELI_74SLUG",50];
+			_crate addMagazineCargo["ACE_8RND_12GA_SLUG",50];
+			_crate addMagazineCargo["ACE_8RND_12GA_BUCK00",50];
+
+			//pistols
+			_crate addMagazineCargo["7RND_45ACP_1911",50];
+			_crate addMagazineCargo["15RND_9X19_M9",50];
+			_crate addMagazineCargo["15RND_9X19_M9SD",50];
+			_crate addMagazineCargo["ACE_15Rnd_9x19_USP",50];
+			_crate addMagazineCargo["ACE_15RND_9X19_USPSD",50];
+			_crate addMagazineCargo["ACE_17RND_9X19_G17",50];
+			_crate addMagazineCargo["ACE_33RND_9X19_G18",50];
+
+			//launchers
+			_crate addMagazineCargo["ACE_40MM_BUCK_M79",50];
+			_crate addMagazineCargo["ACE_6RND_40MM_M32",50];
+			_crate addMagazineCargo["ACE_6RND_CS_M32",50];
+			_crate addMagazineCargo["SMAW_HEAA",50];
+			_crate addMagazineCargo["SMAW_HEDP",50];
+			_crate addMagazineCargo["ACE_SMAW_SPOTTING",50];
+			_crate addMagazineCargo["JAVELIN",50];
+			_crate addMagazineCargo["STINGER",50];
+
+			//crew-served
+			_crate addMagazineCargo["ACE_M2_CSWDM",50];
+			_crate addMagazineCargo["ACE_MK19_CSWDM",50];
+
+			//east
+			//rifles
+			_crate addMagazineCargo["30RND_762X39_AK47",50];
+			_crate addMagazineCargo["ACE_30RND_762X39_SD_AK47",50];
+			_crate addMagazineCargo["ACE_30RND_762X39_S_AK47",50];
+			_crate addMagazineCargo["30RND_545X39_AK",50];
+			_crate addMagazineCargo["30RND_545X39_AKSD",50];
+			_crate addMagazineCargo["ACE_20RND_9X39_B_OC14",50];
+			_crate addMagazineCargo["ACE_20RND_9X39_S_OC14",50];
+			_crate addMagazineCargo["ACE_20RND_762X51_B_FAL",50];
+			_crate addMagazineCargo["ACE_30RND_762X51_B_FAL",50];
+			_crate addMagazineCargo["ACE_10RND_762X39_B_SKS",50];
+
+			//under-barrel grenade launchers
+			_crate addMagazineCargo["1RND_HE_GP25",50];
+			_crate addMagazineCargo["ACE_1RND_CS_GP25",50];
+			_crate addMagazineCargo["FLAREWHITE_GP25",50];
+			_crate addMagazineCargo["FLAREGREEN_GP25",50];
+			_crate addMagazineCargo["FLARERED_GP25",50];
+			_crate addMagazineCargo["FLAREYELLOW_GP25",50];
+			_crate addMagazineCargo["ACE_SSWHITE_GP25",50];
+			_crate addMagazineCargo["ACE_SSGREEN_GP25",50];
+			_crate addMagazineCargo["ACE_SSRED_GP25",50];
+			_crate addMagazineCargo["ACE_SSYELLOW_GP25",50];
+			_crate addMagazineCargo["1RND_SMOKE_GP25",50];
+			_crate addMagazineCargo["1RND_SMOKEGREEN_GP25",50];
+			_crate addMagazineCargo["1RND_SMOKERED_GP25",50];
+			_crate addMagazineCargo["1RND_SMOKEYELLOW_GP25",50];
+
+			//sniper rifles
+			_crate addMagazineCargo["5X_22_LR_17_HMR",50];
+			_crate addMagazineCargo["10RND_9X39_SP5_VSS",50];
+			_crate addMagazineCargo["20RND_9X39_SP5_VSS",50];
+			_crate addMagazineCargo["10RND_762X54_SVD",50];
+			_crate addMagazineCargo["5RND_127X108_KSVK",50];
+
+			//machineguns
+			_crate addMagazineCargo["75RND_545X39_RPK",50];
+			_crate addMagazineCargo["100RND_762X54_PK",50];
+
+			//submachineguns
+			_crate addMagazineCargo["64RND_9X19_BIZON",50];
+			_crate addMagazineCargo["64RND_9X19_SD_BIZON",50];
+
+			//shotguns
+			_crate addMagazineCargo["8RND_B_SAIGA12_74SLUG",50];
+
+			//pistols
+			_crate addMagazineCargo["8RND_9X18_MAKAROV",50];
+			_crate addMagazineCargo["8RND_9X18_MAKAROVSD",50];
+			_crate addMagazineCargo["ACE_8RND_762X25_B_TOKAREV",50];
+			_crate addMagazineCargo["ACE_20RND_765X17_VZ61",50];
+
+			//launchers
+			_crate addMagazineCargo["PG7V",50];
+			_crate addMagazineCargo["PG7VL",50];
+			_crate addMagazineCargo["PG7VR",50];
+			_crate addMagazineCargo["OG7",50];
+			_crate addMagazineCargo["ACE_RPG29_PG29",50];
+			_crate addMagazineCargo["ACE_RPG29_TBG29",50];
+			_crate addMagazineCargo["AT13",50];
+			_crate addMagazineCargo["STRELA",50];
+			_crate addMagazineCargo["IGLA",50];
+
+			//crew-served
+			_crate addMagazineCargo["ACE_DSHKM_CSWDM",50];
+			_crate addMagazineCargo["ACE_KONKURS_CSWDM",50];
+			_crte addMagazineCargo["ACE_KORD_CSWDM",50];
+			_crate addMagazineCargo["ACE_AGS30_CSWDM",50];
+
+			//pla
+			//rifles
+			_crate addMagazineCargo["30RND_580X42_QBZ",50];
+			_crate addMagazineCargo["30RND_580X42_QBZSD",50];
+			_crate addMagazineCargo["30RND_762X39_T81",50];
+
+			//under-barrel grenade launchers
+			_crate addMagazineCargo["1RND_HE_QLG91",50];
+			_crate addMagazineCargo["FLAREWHITE_QLG91",50];
+			_crate addMagazineCargo["FLAREGREEN_QLG91",50];
+			_crate addMagazineCargo["FLARERED_QLG91",50];
+			_crate addMagazineCargo["FLAREYELLOW_QLG91",50];
+			_crate addMagazineCargo["1RND_SMOKE_QLG91",50];
+			_crate addMagazineCargo["1RND_SMOKEGREEN_QLG91",50];
+			_crate addMagazineCargo["1RND_SMOKERED_QLG91",50];
+			_crate addMagazineCargo["1RND_SMOKEYELLOW_QLG91",50];
+
+			//sniper rifles
+			_crate addMagazineCargo["10RND_580X42_QBU",50];
+			_crate addMagazineCargo["5RND_127X108_M99",50];
+
+			//machineguns
+			_crate addMagazineCargo["75RND_580X42_QBB",50];
+			_crate addMagazineCargo["200RND_580X42_QJY",50];
+
+			//submachineguns
+			_crate addMagazineCargo["50RND_580X21_QCQ",50];
+			_crate addMagazineCargo["50RND_580X21_QCW",50];
+
+			//pistols
+			_crate addMagazineCargo["20RND_580X21_QSZ",50];
+			_crate addMagazineCargo["20RND_580X21_QSW",50];
+
+			//launchers
+			_crate addMagazineCargo["PF89B_RKT",50];
+			_crate addMagazineCargo["PF98HE_RKT",50];
+			_crate addMagazineCargo["PF98HEAT_RKT",50];
+
+			
+	//ordnance
+			//west
+			//grenades
+			_crate addMagazineCargo["HANDGRENADE_WEST",50];
+			_crate addMagazineCargo["SMOKESHELL",50];
+			_crate addMagazineCargo["SMOKESHELLGREEN",50];
+			_crate addMagazineCargo["SMOKESHELLRED",50];
+			_crate addMagazineCargo["SMOKESHELLYELLOW",50];
+			_crate addMagazineCargo["ACE_M7A3",50];
+			_crate addMagazineCargo["ACE_M84",50];
+			_crate addMagazineCargo["ACE_M34",50];
+			
+			//mines
+			_crate addMagazineCargo["MINE",50];
+			_crate addMagazineCargo["PIPEBOMB",50];
+			_crate addMagazineCargo["ACE_C4_M",50];
+			_crate addMagazineCargo["ACE_BBETTY_M",50];
+			_crate addMagazineCargo["ACE_CLAYMORE_M",50];
+			_crate addMagazineCargo["ACE_M2SLAM_M",50];
+			_crate addMagazineCargo["ACE_M4SLAM_M",50];
+			_crate addMagazineCargo["ACE_TRIPFLARE_M",50];
+			_crate addMagazineCargo["ACE_M86PDM",50];
+			
+			//east
+			//grenades
+			_crate addMagazineCargo["HANDGRENADE_EAST",50];
+			_crate addMagazineCargo["SMOKESHELLPURPLE",50];
+			_crate addMagazineCargo["SMOKESHELLBLUE",50];
+			_crate addMagazineCargo["SMOKESHELLORANGE",50];
+			
+			//mines
+			_crate addMagazineCargo["MINEE",50];
+			_crate addMagazineCargo["ACE_POMZ_M",50];
+			
+			//pla
+			//grenades
+			_crate addMagazineCargo["HANDGRENADE_PLA",50];
+
+			
+	//goggles|masks
+			//west
+			_crate addWeaponCargo["ACE_GLASSESSPECTACLES",50];
+			_crate addWeaponCargo["ACE_GLASSESROUNDGLASSES",50];
+			_crate addWeaponCargo["ACE_GLASSESSUNGLASSES",50];
+			_crate addWeaponCargo["ACE_GLASSESBLACKSUN",50];
+			_crate addWeaponCargo["ACE_GLASSESBLUESUN",50];
+			_crate addWeaponCargo["ACE_GLASSESREDSUN",50];
+			_crate addWeaponCargo["ACE_GLASSESGREENSUN",50];
+			_crate addWeaponCargo["ACE_GLASSESLHD_GLASSES",50];
+			_crate addWeaponCargo["ACE_GLASSESTACTICAL",50];
+			_crate addWeaponCargo["ACE_EARPLUGS",50];
+			_crate addWeaponCargo["ACE_GLASSESGASMASK_US",50];
+			_crate addWeaponCargo["ACE_GLASSESBALAKLAVA",50];
+			
+			//east
+			_crate addWeaponCargo["ACE_GLASSESGASMASK_RU",50];
+
+			
+	//rucksacks
+			//west
+			_crate addWeaponCargo["ACE_RUCKSACK_MOLLE_GREEN",50];
+			_crate addWeaponCargo["ACE_RUCKSACK_MOLLE_BROWN",50];
+			_crate addWeaponCargo["ACE_RUCKSACK_MOLLE_WOOD",50];
+			_crate addWeaponCargo["ACE_RUCKSACK_MOLLE_ACU",50];
+			_crate addWeaponCargo["ACE_RUCKSACK_MOLLE_WMARPAT",50];
+			_crate addWeaponCargo["ACE_RUCKSACK_MOLLE_DMARPAT",50];
+			_crate addWeaponCargo["ACE_RUCKSACK_MOLLE_GREEN_MEDIC",50];
+			_crate addWeaponCargo["ACE_RUCKSACK_MOLLE_BROWN_MEDIC",50];
+			_crate addWeaponCargo["ACE_RUCKSACK_MOLLE_ACU_MEDIC",50];
+			_crate addWeaponCargo["ACE_RUCKSACK_MOLLE_WMARPAT_MEDIC",50];
+			_crate addWeaponCargo["ACE_RUCKSACK_MOLLE_DMARPAT_MEDIC",50];
+			_crate addWeaponCargo["ACE_ANPRC77",50];
+			_crate addWeaponCargo["ACE_PRC119",50];
+			_crate addWeaponCargo["ACE_VTAC_RUSH72",50];
+			_crate addWeaponCargo["ACE_CHARLIEPACK",50];
+			_crate addWeaponCargo["ACE_FAST_PACKEDC",50];
+			_crate addWeaponCargo["ACE_COMBAT_PACK",50];
+
+			//east
+			_crate addWeaponCargo["ACE_RUCKSACK_RD90",50];
+			_crate addWeaponCargo["ACE_RUCKSACK_RD91",50];
+			_crate addWeaponCargo["ACE_RUCKSACK_RD92",50];
+			_crate addWeaponCargo["ACE_RUCKSACK_RD54",50];
+			_crate addWeaponCargo["ACE_RUCKSACK_RD99",50];
+			_crate addWeaponCargo["ACE_RUCKSACK_EAST",50];
+			_crate addWeaponCargo["ACE_RUCKSACK_EAST_MEDIC",50];
+			_crate addWeaponCargo["ACE_P159_RD90",50];
+			_crate addWeaponCargo["ACE_P159_RD54",50];
+			_crate addWeaponCargo["ACE_P159_RD99",50];
+			_crate addWeaponCargo["ACE_BACKPACK",50];
+
+			
+	//tools
+			//weapons
+			_crate addWeaponCargo["BINOCULAR",50];
+			_crate addWeaponCargo["NVGOGGLES",50];
+			_crate addWeaponCargo["LASERDESIGNATOR",50];
+			_crate addWeaponCargo["ACE_RANGEFINDER_OD",50];
+			_crate addWeaponCargo["ACE_SPOTTINGSCOPE",50];
+			_crate addWeaponCargo["ACE_KESTREL4500",50];
+			_crate addWeaponCargo["ACE_HUNTIR_MONITOR",50];
+			_crate addWeaponCargo["ACE_WIRECUTTER",50];
+			_crate addWeaponCargo["ACE_PARACHUTEPACK",50];
+			_crate addWeaponCargo["ACE_PARACHUTEROUNDPACK",50];
+
+			//magazines
+			_crate addMagazineCargo["LASERBATTERIES",50];
+			_crate addMagazineCargo["ACE_BATTERY_RANGEFINDER",50];
+			_crate addMagazineCargo["ACE_IRSTROBE",50];
+			_crate addMagazineCargo["ACE_KNICKLICHT_W",50];
+			_crate addMagazineCargo["ACE_KNICKLICHT_R",50];
+			_crate addMagazineCargo["ACE_KNICKLICHT_Y",50];
+			_crate addMagazineCargo["ACE_KNICKLICHT_G",50];
+			_crate addMagazineCargo["ACE_KNICKLICHT_B",50];
+			_crate addMagazineCargo["ACE_KNICKLICHT_IR",50];
+			_crate addMagazineCargo["ACE_SANDBAG_MAGAZINE",50];
+
+			
+	//medical supplies
+	_crate addMagazineCargo["ACE_BANDAGE",50];
+	_crate addMagazineCargo["ACE_LARGEBANDAGE",50];
+	_crate addMagazineCargo["ACE_TOURNIQUET",50];
+	_crate addMagazineCargo["ACE_MORPHINE",50];
+	_crate addMagazineCargo["ACE_EPINEPHRINE",50];
+	_crate addMagazineCargo["ACE_SPLINT",50];
+	_crate addMagazineCargo["ACE_IV",50];
+	_crate addMagazineCargo["ACE_PLASMA",50];
+};
+</pre>
+      </div>
+
+    </div><!-- /.container -->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+  </body>
+</html>

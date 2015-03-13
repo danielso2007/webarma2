@@ -1,0 +1,881 @@
+//chat
+driver vehicle player sideChat "sideChat";
+driver vehicle player globalChat "globalChat";
+driver vehicle player groupChat "groupChat";
+vehicle player vehicleChat "vehicleChat";
+driver vehicle player commandChat "commandChat";
+driver vehicle player customChat [1, "customChat"];
+systemChat "systemChat";
+
+//=========================================================================================
+
+//ATACAR ALVO (adicionar no init da unidade ou trigger):
+soldado doTarget alvo; soldado selectWeapon primaryWeapon soldado; soldado doFire alvo;
+
+//=========================================================================================
+
+//MODULO DE CIVIS E CARROS:
+//--> kamenyy,strelka = trigger com esses nomes;
+//--> this setVariable ["debug",true]; = Debug
+
+this setVariable ["debug",true];
+[BIS_alice_mainscope,"ALICE_civilianinit",[{_this addweapon "Mk_48"}]] call bis_fnc_variablespaceadd;
+this setvariable ["townlist",[kamenyy,strelka]];
+BIS_alice_mainscope SetVariable ["respectModifyCoef", 0,1];
+BIS_loc_acityc_kozlovka SetVariable ["ALICE_populationCoef", 0.4];
+
+//=========================================================================================
+//OBTER GRUPO DA UNIDADE:
+groupName = group this;
+
+//=========================================================================================
+//TIRAR CONVERSA NORMAL ENTRE OS AI:
+player setVariable ["BIS_noCoreConversations", true];
+
+//=========================================================================================
+//ATIVAR TRIGGER PELA HORA:
+CONDITION: daytime > 15
+
+//=========================================================================================
+//DESLIGAR AS LUZES DE UMA CIDADE:
+CRIAR UM GAME LOGIC:
+SIDE: GAME LOGIC
+CLASS: LOCATIONS
+UNIT: CITY
+NAME: logicCidade
+
+CRIAR UMA TRIGGER POR EXEMPLO:
+ACTIVATION: BLUEFOR
+TYPE: SWITCH
+CONDITION:
+{_x switchLight "OFF"} forEach ((getPos logicCidade) nearObjects ["StreetLamp",200]);
+
+=========================================================================================
+//DESLIGAR TODA AS LUZES DE LUGARES APÓS ACTION:
+ADICIONAR GAME LOGIC, COMO ACIMA, COM NOME: powercoverage
+
+ADICIONAR UM OBJETO EMPTY, COMO UM MASTRO POR EXEMPLO, E ADICIONAR ACTION NO INITIALIZATION:
+this addAction["Desligar Tudo","apagarLuzes.sqf"];
+
+ARQUIVO apagarLuzes.sqf:
+// NOMES DAS CIDADES OU GAME LOGIC.
+_types = ["Land_PowLines_WoodL", "Land_PowLines_ConcL", "Land_lampa_ind_zebr", "Land_lampa_sidl_3", "Land_lampa_vysoka", "Land_lampa_ind", "Land_lampa_ind_b", "Land_lampa_sidl"];
+_fim = 0;
+while {_fim == 0} do
+{
+    // power1 and power2 were two objects I placed. EXEMPLO PARA ESPERAR A DESTRUIÇÃO DE DOIS GERADORES.
+	//waituntil{!alive power1 and !alive power2};
+
+	// delete the light over the generators. DELETANDO UM OBJETO QUE NO EXEMPLO ERA UMA LUZ NOS GERADORES.
+	//deletevehicle obsLight;
+
+	for [{_i=0},{_i < (count _types)},{_i=_i+1}] do
+	{
+        // powercoverage is a marker I placed.
+		_lamps = getmarkerpos "powercoverage" nearObjects [_types select _i, 1200];
+		//hintsilent format ["%1",_lamps];
+		sleep 1;
+		{_x switchLight "OFF";} forEach _lamps;
+	};
+	
+	_fim = 1;
+};
+
+=========================================================================================
+//COMEÇA SALTANDO (SEM PARA-QUEDAS):
+//INIT DA UNIDADE:
+[this, 1000] exec "ca\air2\halo\data\Scripts\HALO_init.sqs"
+
+=========================================================================================
+//SALTO COM PARA-QUEDAS:
+NA UNIDADE:
+this addAction ["HALO JUMP","jump.sqf",[],1,false,true,"","_this in _target"];
+
+SCRIPT:
+// tem que adicionar o módulos de funções
+player action [ "eject", vehicle player];
+player spawn bis_fnc_halo;
+player setvelocity [0,120*0.8,0];
+player setdir 0;
+
+=========================================================================================
+//ADICIONAR UNIDADE NO VEÍCULO:
+this moveInCargo merlin;
+
+=========================================================================================
+//HALO EM QUALQUER PARTE DO MAPA COM UM CLICK:
+ACTION EM QUALQUER OBJETO (POSTE):
+this addAction["HALO","flagpoleHALO.sqf"];
+
+SCRIPT:
+haloed = true;
+hintSilent "Click on the map where you'd like to HALO.";
+onMapSingleClick "player setPos _pos; [player, 2000] exec 'ca\air2\halo\data\Scripts\HALO_init.sqs';haloed = false;hint 'Close the map and don''t forget to open your chute!'";
+waitUntil{!haloed};
+onMapSingleClick "";
+
+=========================================================================================
+//GRUPO DO USUÁRIO INICINANDO ENTRANDO NO VEÍCULO:
+{_x moveInCargo carro} forEach units group this;
+
+=========================================================================================
+//DELETANDO CARRO E TODOS DO VEÍCULO:
+EM UMA TRIGGER POR EXEMPLO:
+{deleteVehicle _x} forEach crew carro + [carro];
+
+=========================================================================================
+// EAGLE WING EFFECTS
+description.ext:
+#include "\ca\missions_EW\campaign\description_mission.hpp"
+
+init.sqf:
+execVM "screen.sqf";
+
+"colorCorrections" ppEffectAdjust [2, 30, 0, [0.0, 0.0, 0.0, 0.0], [0.8*2, 0.5*2, 0.0, 0.7], [0.9, 0.9, 0.9, 0.0]];
+"colorCorrections" ppEffectCommit 0;
+//"colorCorrections" ppEffectAdjust [1, 1, 0, [0.0, 0.0, 0.0, 0.0], [0.8*2, 0.5*2, 0.0, 0.7], [0.9, 0.9, 0.9, 0.0]];
+"colorCorrections" ppEffectAdjust [1, 0.8, -0.001, [0.0, 0.0, 0.0, 0.0], [0.8*2, 0.5*2, 0.0, 0.7], [0.9, 0.9, 0.9, 0.0]];  
+"colorCorrections" ppEffectCommit 3;
+"colorCorrections" ppEffectEnable true;
+"filmGrain" ppEffectEnable true; 
+"filmGrain" ppEffectAdjust [0.02, 1, 1, 0.1, 1, false];
+"filmGrain" ppEffectCommit 5;
+
+//--- Wind & Dust
+[] spawn {
+    waituntil {isplayer player};
+    setwind [0.201112,0.204166,true];
+    while {true} do {
+        _ran = ceil random 5;
+        playsound format ["wind_%1",_ran];
+        _obj = vehicle player;
+        _pos = position _obj;
+
+        //--- Dust
+            setwind [0.201112*2,0.204166*2,false];
+        _velocity = [random 10,random 10,-1];
+        _color = [1.0, 0.9, 0.8];
+        _alpha = 0.02 + random 0.02;
+        _ps = "#particlesource" createVehicleLocal _pos;  
+        _ps setParticleParams [["\Ca\Data\ParticleEffects\Universal\universal.p3d", 16, 12, 8], "", "Billboard", 1, 3, [0, 0, -6], _velocity, 1, 1.275, 1, 0, [9], [_color + [0], _color + [_alpha], _color + [0]], [1000], 1, 0, "", "", _obj];
+        _ps setParticleRandom [3, [30, 30, 0], [0, 0, 0], 1, 0, [0, 0, 0, 0.01], 0, 0];
+        _ps setParticleCircle [0.1, [0, 0, 0]];
+        _ps setDropInterval 0.01;
+
+        sleep (random 1);
+        deletevehicle _ps;
+        _delay = 10 + random 20;
+        sleep _delay;
+
+    };
+};
+
+//--- Ash
+[] spawn {
+    waituntil {isplayer player};
+    _pos = position player;
+    _parray = [
+    /* 00 */        ["\Ca\Data\ParticleEffects\Universal\Universal", 16, 12, 8, 1],//"\Ca\Data\cl_water",
+    /* 01 */        "",
+    /* 02 */        "Billboard",
+    /* 03 */        1,
+    /* 04 */        4,
+    /* 05 */        [0,0,0],
+    /* 06 */        [0,0,0],
+    /* 07 */        1,
+    /* 08 */        0.000001,
+    /* 09 */        0,
+    /* 10 */        1.4,
+    /* 11 */        [0.05,0.05],
+    /* 12 */        [[0.1,0.1,0.1,1]],
+    /* 13 */        [0,1],
+    /* 14 */        0.2,
+    /* 15 */        1.2,
+    /* 16 */        "",
+    /* 17 */        "",
+    /* 18 */        vehicle player
+    ];
+    _snow = "#particlesource" createVehicleLocal _pos;  
+    _snow setParticleParams _parray;
+    _snow setParticleRandom [0, [10, 10, 7], [0, 0, 0], 0, 0.01, [0, 0, 0, 0.1], 0, 0];
+    _snow setParticleCircle [0.0, [0, 0, 0]];
+    _snow setDropInterval 0.01;
+
+    _oldPlayer = vehicle player;
+    while {true} do {
+        waituntil {vehicle player != _oldPlayer};
+        _parray set [18,vehicle player];
+        _snow setParticleParams _parray;
+        _oldPlayer = vehicle player;
+    };
+};
+
+
+screen.sqf:
+screen = {
+
+sqf = [true] spawn bis_ew_fnc_screen;
+
+};
+
+
+while {true} do {
+    player spawn screen;
+    sleep 5;
+};
+
+
+
+=========================================================================================
+//COLETA DE EVIDÊNCIAS:
+UNIDADE FILE DA EVIDÊNCIA:
+SIDE: EMPTY
+CLASS: OBJECTS (SMALL)
+UNIT: EVIDENCE {FILE2}
+NAME: evi1
+----------------------------------
+TRIGGER AO OBTER EVIDÊNCIA:
+CONDITION: !alive (edi1);
+ON ACT.: QUALQUER COISA. EU COLOQUEI UM EFEITO DE MÚSICA.
+----------------------------------
+TRIGGER PARA FINALIZAR NA TASK COMPLETA:
+TYPE: END #1;
+CONDITION: taskCompleted tskEvidence1;
+ON ACT.: End1;
+----------------------------------
+Scripts:
+init.sqf:
+//execVM "briefing.sqf";
+// Nome do objeto
+evi1 addaction ["Collect evidence!", "collect.sqf"];
+----------------------------------
+collect.sqf:
+deletevehicle evi1;
+sleep 5;
+tskEvidence1 setTaskState "SUCCEEDED";
+[objNull, ObjNull, tskEvidence1, "SUCCEEDED"] execVM "CA\Modules\MP\data\scriptCommands\taskHint.sqf";
+
+-->
+"Succeeded"
+"Failed"
+"Canceled"
+"Created"
+"Assigned"
+-->
+=========================================================================================
+// ENTRAR E SAIR DE UM VEÍCULO POR TRIGGER:
+INIT UNIDADE:
+groupName = group this;
+
+--> ADICIONAR UM VEÍCULO
+
+PRIMEIRA TRIGGER (BLUEFOR COM TYPE SWITCH):
+{_x in carro} count units GroupName == count units GroupName
+
+SEGUNDA TRIGGER, AO CHEGAR:
+carro in thislist and {_x in carro} count units GroupName == 0
+
+=========================================================================================
+//MISSEL TELE-GUIADO:
+ADICIONAR O LASER AO SOLDADO (NÃO ESQUECER A BATERIA):
+removeAllWeapons this;
+{this addMagazine "30Rnd_556x45_Stanag"} forEach [1,2,3,4,5,6];
+this addWeapon "M4A3_CCO_EP1";
+{this addMagazine "Laserbatteries"} forEach [1,2,3,4];
+this addWeapon "Laserdesignator";
+{this addMagazine "HandGrenade_West"} forEach [1,2,3,4];
+this addMagazine "SmokeShellGreen";
+this addMagazine "SmokeShellRed";
+this addWeapon "NVGoggles";
+this addWeapon "ItemGPS";
+this selectWeapon "Laserdesignator";
+
+----------------->
+EM UMA TRIGGER DE RÁDIO, COLOCAR:
+nul=[laserTarget player, getpos missilestart,"M_Ch29_AT",200] execvm "launchmissile.sqf";
+
+SCRIPT (launchmissile.sqf):
+
+//////////////////////////////////////////////////////////////////
+// Function file for Armed Assault
+// Created by: Venori
+//////////////////////////////////////////////////////////////////
+
+_primaryTarget = _this select 0; //target for the missile
+_missileStart = _this select 1; //position where te missile will be spawned
+_missileType = _this select 2; //type of the missile
+_missileSpeed = _this select 3; //speed of the missile
+_defaultTargetPos = _this select 4; //default position where unguided missiles will fly [8340.718750,3074.914795,0];
+
+_reloadTime = 15;
+
+if (isNull _primarytarget) exitWith {hint "No Target Found!"};
+if (miMissionActive) exitWith{hint "Missile unavailable!"};
+
+miMissionActive = true;
+
+hint "Target Detected!\n\nMissile inbound!";
+sleep 5;
+
+_perSecondChecks = 25; //direction checks per second
+_getPrimaryTarget = {if (typeName _primaryTarget == typename {}) then {call _primaryTarget} else {_primaryTarget}}; //code can be used for laser dots
+_target = call _getPrimaryTarget;
+
+_missile = _missileType createVehicle _missileStart;
+_missile setPos _missileStart;
+
+//secondary target used for random trajectory when laser designator is turned off prematurily
+_secondaryTarget = "HeliHEmpty" createVehicle _defaultTargetPos;
+_secondaryTarget setPos _defaultTargetPos;
+
+_guidedRandomly = FALSE;
+
+//procedure for guiding the missile
+_homeMissile = {
+
+//here we switch to secondary target at random position if the laser dot no longer exists
+//if the designator is turned on again, the missile will return to it's original target (providing it hadn't flown too far)
+private ["_velocityX", "_velocityY", "_velocityZ", "_target"];
+_target = _secondaryTarget;
+if (!(_guidedRandomly) && _missile distance _target > _missileSpeed * 1.5) then {
+_guidedRandomly = TRUE;
+_target = _secondaryTarget;
+_dispersion = (_missile distance _defaultTargetPos) / 20;
+_dispersionMin = _dispersion / 10;
+_target setPos [(_defaultTargetPos select 0) + _dispersionMin - (_dispersion / 2) + random _dispersion, (_defaultTargetPos select 1) + _dispersionMin - (_dispersion / 2) + random _dispersion, 0];
+};
+if (!(isNull (call _getPrimaryTarget))) then {_target = call _getPrimaryTarget; _defaultTargetPos = position _target; _guidedRandomly = FALSE};
+
+//altering the direction, pitch and trajectory of the missile
+if (_missile distance _target > (_missileSpeed / 20)) then {
+_travelTime = (_target distance _missile) / _missileSpeed;
+_steps = floor (_travelTime * _perSecondChecks);
+
+_relDirHor = [_missile, _target] call BIS_fnc_DirTo;
+_missile setDir _relDirHor;
+
+_relDirVer = asin ((((getPosASL _missile) select 2) - ((getPosASL _target) select 2)) / (_target distance _missile));
+_relDirVer = (_relDirVer * -1);
+[_missile, _relDirVer, 0] call BIS_fnc_setPitchBank;
+
+_velocityX = (((getPosASL _target) select 0) - ((getPosASL _missile) select 0)) / _travelTime;
+_velocityY = (((getPosASL _target) select 1) - ((getPosASL _missile) select 1)) / _travelTime;
+_velocityZ = (((getPosASL _target) select 2) - ((getPosASL _missile) select 2)) / _travelTime;
+
+//_defaultTargetPos = position _target;
+};
+
+[_velocityX, _velocityY, _velocityZ]
+};
+
+call _homeMissile;
+
+//fuel burning should illuminate the landscape
+_fireLight = "#lightpoint" createVehicle position _missile;
+_fireLight setLightBrightness 0.5;
+_fireLight setLightAmbient [1.0, 1.0, 1.0];
+_fireLight setLightColor [1.0, 1.0, 1.0];
+_fireLight lightAttachObject [_missile, [0, -0.5, 0]];
+
+//missile flying
+while {alive _missile} do {
+_velocityForCheck = call _homeMissile;
+if ({(typeName _x) == (typeName 0)} count _velocityForCheck == 3) then {_missile setVelocity _velocityForCheck};
+sleep (1 / _perSecondChecks)
+};
+
+deleteVehicle _fireLight;
+deleteVehicle _secondaryTarget;
+
+sleep _reloadtime;
+miMissionactive = false;
+hint "Missile available!";
+=========================================================================================
+// EXEMPLO DE OBTER A POSIÇÃO DA FUMAÇA LANÇADA:
+COLOCAR UM MARKER NOME: center
+// A FUMAÇA NESSE LOCAL SERÁ MAPEADA PELO SCRIPT.
+
+
+//init
+	_cpos = markerpos "center";
+	_radius = 1500;
+	_wait = 5;
+
+//loop check
+	while {alive c130} do {
+		_smokearray = _cpos nearObjects ["SmokeShell",_radius];
+		_qty = count _smokearray;
+		if (_qty > 0) then {
+			//Smoke has been dropped
+			_smoke = _smokearray select 0;
+			_smokepos = position _smoke;
+			hint format ["%1",_smokepos];
+		};
+		sleep 2;
+	};
+
+
+
+=========================================================================================
+//COMPLETANDO OBJETIVO
+ADICIONAR UM INIMIGO COM NOME Batman1 (removeAllWeapons this;)
+ADICIONAR 2 MARKERS: Hostage & Extract
+
+SCRIPT INIT.SQF:
+tsk1 = player createSimpleTask ["Matar inimigo"];
+tsk1 setSimpleTaskDescription ["Matar o cara que está correndo na sua frente", "Matar inimigo", ""];
+tsk1 setSimpleTaskDestination (getMarkerPos "Hostage");
+player setCurrentTask tsk1;
+tsk1 setTaskState "Assigned";
+tsk2 = player createSimpleTask ["Extract"];
+tsk2 setSimpleTaskDescription ["Escort the pilot to the extraction point and wait for the evac chopper.", "Extract", ""];
+tsk2 setSimpleTaskDestination (getMarkerPos "Extract");
+
+TRIGGER:
+BLUEFOR
+TYPE: SWITCH
+CONDITION: !alive Batman1;
+ON ACT.: tsk1 setTaskState "Succeeded"; player setCurrentTask tsk2;hint "Não";
+
+
+
+=========================================================================================
+// OBTER A POSIÇÃO DA UNIDADE NO CANTO DA TELA:
+INIT UNIT:
+_handle = player execVM "posicao.sqf"; 
+
+posicao.sqf -->
+while {true} do {
+  hintsilent format ["%1\n%2\n%3", position player select 0, position player select 1, position player select 2];
+  sleep 0.2;
+};
+
+
+=========================================================================================
+// APENAS ENGENHEIRO DESARMANDO BOMBA:
+
+INIT DO OBJETO BOMBA:
+this addAction ["Disarm C4","disarmC4.sqf",[this],1,false,true,"","typeOf _this == ""USMC_SoldierS_Engineer"""];
+
+disarmC4.sqf -->
+// Who's who...
+_bomb = _this select 0;
+_eod = _this select 1;
+
+// "disarming" animation
+_eod playMove "AinvPknlMstpSlayWrflDnon_medic";
+sleep 3.0;
+WaitUntil {animationState _eod != "AmovPercMstpSnonWnonDnon_talking"};
+
+deletevehicle _bomb;
+_eod commandChat "C4 disarmed!";  // local unless broadcast, wish there was directChat
+
+
+=========================================================================================
+// INTERROGANDO
+
+ADICIONAR UM CIVIL (SEM PROBLEMAS):
+INIT:
+this addAction ["Interrogate","civ_i.sqf",[false],1,false,true,"","(_target distance _this) < 3"];
+
+
+ADICIONAR UM CIVIL (ACUSADO):
+INIT:
+this addAction ["Interrogate","civ_i.sqf",[true],1,false,true,"","(_target distance _this) < 3"];
+
+
+ADICIONAR UM GAME LOGIC ONDE SERÁ TRANSPORTADO O ACUSADO:
+SIDE: GAME LOGIC
+CLASS: OBJECTS
+UNIT: GAME LOGIC
+
+
+civ_i.sqf -->
+// grab a value for the suspect and check for guilt flag
+_suspect = _this select 0;
+_bomber = (_this select 3) select 0;
+
+// Remove all actions from the suspect
+_action = _suspect addAction["foo", "foo.sqf"];
+while {_action >= 0} do	{
+	_suspect removeAction _action;
+	_action = _action - 1;
+};
+
+// Quick animation, I really need to find a better Action for this, talking or something.
+_suspect playAction "gestureNod";
+sleep 3;
+
+// If he's NOT the bomber, just quit.
+if (!_bomber) exitwith {hint "Você percebe que esse cara é de nenhuma utilidade para você."};
+
+// He is the bomber, so lets get all up in ur bidness!
+// This animation is a little long, but definitely looks like someone over explaining something.
+_suspect playAction "SceneCommanderTalk";
+sleep 5;
+
+// Add an action to the suspect to arrest him
+hint "Esse cara é, obviamente, tem algo ... Prendam-no!";
+_suspect addAction ["Arrest","civ_a.sqf"];
+
+
+
+
+civ_a.sqf -->
+// Grab a value for the suspect
+_suspect = _this select 0;
+
+// Remove all actions from the suspect
+_action = _suspect addAction["foo", "foo.sqf"];
+while {_action >= 0} do	{
+	_suspect removeAction _action;
+	_action = _action - 1;
+};
+
+// Stop the current animation and surrender
+_suspect switchmove "";
+_suspect playActionNow "Surrender";
+sleep 3;
+
+// Alert the soldier
+hint "Voce envia o suspeito para invesstigacao.";
+
+// "Teleport" the suspect to holdover, a GameLogic location pre-placed.
+_suspect setPos getPos logic1;
+=========================================================================================
+// INICINADO E RESPAWN EM PARA-QUEDAS
+INIT.SQF
+// Function that creates a parachute over the dropzone marker and moves the player into it.
+fnc_letsFly = {
+	_para = createVehicle ["Parachute_US_EP1", getMarkerPos "mrk_dropZone", [], 0, "FLY"];
+	_para setPosATL [getPosATL _para select 0, getPosATL _para select 1, 50];
+	player moveInDriver _para;
+};
+
+// This starts the player in the air at gamestart
+call fnc_letsFly;
+
+// This adds the MP event to the player
+player addMPEventHandler ["MPRespawn",{_this spawn fnc_letsFly;}];
+
+=========================================================================================
+// INICINADO ARMAMENTO DO USUÁRIO
+removeAllWeapons this;
+{this addMagazine "30Rnd_556x45_Stanag"} forEach [1,2,3,4,5,6];
+this addWeapon "M4A3_CCO_EP1";
+{this addMagazine "17Rnd_9x19_glock17"} forEach [1,2,3,4];
+this addWeapon "glock17_EP1";
+{this addMagazine "HandGrenade_West"} forEach [1,2,3,4];
+this addMagazine "SmokeShellGreen";
+this addMagazine "SmokeShellRed";
+this addWeapon "Binocular";
+this addWeapon "NVGoggles";
+this addWeapon "ItemGPS";
+
+-->
+removeAllWeapons this; for "_i" from 1 to 12 do {this addmagazine "smokeshell"};
+
+
+-->
+removeAllWeapons this; {this addmagazine "smokeshell"} foreach [1,2,3,4,5,6,7,8,9,10,11,12];
+
+--> ADICIONAR A TODOS OS SOLDADOS DA LISTA.
+INIT.SQF
+pilot_array = [pilot_01, pilot_02, pilot_03, pilot_04, pilot_05, pilot_06, pilot_07, pilot_08, pilot_09, pilot_10, pilot_11, pilot_12, pilot_13];
+{
+  _o = _x;
+  removeAllWeapons _o;
+  for "_i" from 1 to 4 do {_o addmagazine "15Rnd_9x19_M9"};
+  {_o addweapon _x} foreach ["M9","Binocular","NVgoggles"];
+  for "_i" from 1 to 3 do {_o addmagazine "smokeshell"};
+} foreach pilot_array;
+
+
+=========================================================================================
+// OBTER AS ARMAS DA UNIDADE
+
+hint format["%1 %2", weapons this, magazines this];
+
+=========================================================================================
+// FOGO
+ADICIOANAR UM GAME LOGIC
+SIDE: GAME LOGIC
+CLASS: OBJECTS
+UNIT: GAME LOGIC
+NAME: fireLogic
+--> ADICIONAR MODULO FUNCTION
+-- > TRIGGER:
+this = [firelogic,6,time,false,false] spawn BIS_Effects_Burn;
+
+=========================================================================================
+// TODOS DA TRIGGER EM MODO COMBATE:
+{_x setbehaviour "combat"} foreach thislist;
+
+=========================================================================================
+// SUPORTE HELICOPTERO DE UM PONTO AO OUTRO VIA RÁDIO
+--> ADICIONAR MÓDULO FUNCTIONS
+
+-- ADICIONAR TRIGGER DE RÁRIO PARA EXECUTAR:
+nul = [player] execVM "plannedExtraction.sqf";
+
+--> ADICIONAR DOIS MARKERS DE CHEGADA E SAÍDA:
+hStart E hEnd
+plannedExtraction.sqf:
+//////////////////////////////////////////////////////
+//  From trigger:
+// http://www.kylania.com/ex/?p=47
+//  nul = [player] execVM "plannedExtraction.sqf";
+//
+//  Pre-place "hStart" and "hEnd" markers on the map.
+/////////////////////////////////////////////////////
+
+// Wait till the Functions module is ready.
+waituntil {!isnil "bis_fnc_init"};
+
+// Declare everything.
+_unit = _this select 0; // who called it.
+_chopperType = "CH_47F_EP1";  // Type of transport.
+_start = getMarkerPos "hStart";  // location of start/spawn/delete location.
+_end = getMarkerPos "hEnd";  // location of drop off.
+_landPos = [_unit, 20, getdir _unit] call BIS_fnc_relPos;  // location of pickup, 20m in front of caller
+
+if (isServer) then {
+	// message letting them know it's coming.
+	hintSilent "Extraction chopper inbound!";  
+	
+	// Create a little shiney ball we can use to get the direction from start to caller with
+	_blinky = "Sign_sphere10cm_EP1" createVehicle _start;
+	_flightPath = [_blinky, _unit] call BIS_fnc_relativeDirTo;		
+	
+	// Spawn the helo, facing the user, in the air at the start location.
+	_ch = [[_start select 0, _start select 1, 50], _flightPath, _chopperType, side _unit] call BIS_fnc_spawnVehicle;
+	
+	// Name the helo globally so that waypoint orders will work.
+	transporthelo = _ch select 0;
+	_chGroup = _ch select 2; // group of helo so waypoints work.
+	_chGroup setBehaviour "CARELESS"; // Make sure they don't get distracted.
+	// transporthelo setCaptive true; // uncomment this to make your ride safe.
+	
+	// These lines might be needed in MP. :)  Didn't test it yet.
+//	_ch select 0 setVehicleInit "transporthelo = this; this setVehicleVarName ""transporthelo""";
+//	processInitCommands;
+	
+	// Delete the cute little light that let us spawn facing the right direction
+	// and create landing spots for pickup and dropoff.
+	deleteVehicle _blinky;
+	_lzPickup = "HeliHEmpty" createvehicle _landPos;
+	_lzDropOff = "HeliHEmpty" createvehicle _end;
+	
+	// Give the helo a waypoint to where the player is and make it land, engines on.
+	wp0 = _chGroup addwaypoint [_landPos, 20];
+	wp0 setwaypointtype "MOVE";
+	wp0 setWaypointStatements ["","transportHelo land ""GET IN"""];
+	
+	// Wait till the player's group is in the helo.
+	waitUntil{{_x in transporthelo} count units group _unit == count units group _unit};
+	
+	// Once they are, off we go by setting a TRANSPORT UNLOAD waypoint.  
+	// It'll auto boot the leader once there, but he'll have to tell the others to get out.
+	wp1 = _chGroup addwaypoint [_end, 20];
+	wp1 setwaypointtype "TR UNLOAD";
+	wp1 setWaypointStatements ["","transportHelo land ""GET OUT"""];
+	
+	// Wait till the player's group is out of the helo.
+	waitUntil{{_x in transporthelo} count units group _unit == 0};
+	
+	// Once they are out, set a waypoint back to the start and clean up by deleting the helo and landing pads.
+	wp2 = _chGroup addwaypoint [_start, 20];
+	wp2 setwaypointtype "MOVE";
+	wp2 setWaypointStatements ["true","{deleteVehicle _x} forEach crew transporthelo; deletevehicle transporthelo;"];
+	deleteVehicle _lzPickup;
+	deleteVehicle _lzDropOff;
+};
+
+
+=========================================================================================
+// SALVANDO REFENS
+4 REFENS E NO PRIMEIRO ADICIONAR NO INIT:
+POWS = [p1,p2,p3,p4]
+
+NO REFEM PRINCIPAL ADICIONAR A AÇÃO:
+this addAction ["Rescue POWs","rescuePows.sqf",[POWS],1,false,true,"","(_target distance _this) < 3"];
+
+--> TRIGGER
+{_x setPos [getPos _x select 0, getPos _x select 1, 0.2];
+_x setPos getPos _x; doStop _x;} forEach POWS;helicopterOne land "GET IN";
+titleText ["The POWs are in the shipping container behind you.\n\nRescue them and tell them to get into the waiting helicopter! \n\nYour ride will be along shortly.","PLAIN"];
+
+--> TRIGGER SE VEÍCULO RECEBER REFENS
+CONDITION: {alive _x && (_x in rescue1)} count POWS == {alive _x} count POWS
+ON ACT.: hint "POWs rescued!";{[_x] joinSilent grpNull} forEach POWS
+
+
+=========================================================================================
+// TRAVAR ENTRADA NO VEÍCULO E PILOTAGEM
+this lockDriver true;
+
+--> TRIGGER
+CONTIDIOIN: soldado in veiculo1 or soldado in veiculo2;
+On Act.:soldado action["EJECT", vehicle soldado];hintSilent "This helicopter is only for the POWs!";
+
+=========================================================================================
+// ESCOLHER ARMAS NO BRIEF
+description.ext
+
+class Weapons
+{
+  class SCAR_H_LNG_Sniper     {count = 1;};
+  class M4A1                  {count = 8;};
+};
+
+class Magazines
+{
+  class 30Rnd_556x45_Stanag   {count = 50;};
+};
+
+=========================================================================================
+// RECUPERANDO SEU SANGUE
+
+INIT:
+this addAction ["Heal Self", "healSelf.sqf", [], 1, false, true];
+healSelf.sqf:
+_unit = _this select 1;
+_unit playMove "AinvPknlMstpSlayWrflDnon_medic";
+_unit setDamage 0;
+=========================================================================================
+// TÍTULOS
+titleText ["Isto está escrito em letras brancas no meio da tela, desaparecendo em ao longo de 3 segundos e, desaparecendo em 10 segundos ou menos","PLAIN", 3];
+titleText ["Isto está escrito em letras brancas na parte inferior do seu screenfading distância em 4 segundos por causa do comando titleFadeOut.","PLAIN DOWN"]; titleFadeOut 4;
+titleText ["Isto irá transformar a sua tela preto e exibir este texto lentamente desaparecendo após 8 segundos.","BLACK IN",8];
+titleText ["Isso vai desaparecer sua tela em preto durante a exibição este texto e nunca mais voltar, normalmente. Adicionando o titleFadeOut irá torná-lo desaparecer de volta em, tipo, 20 segundos ou assim. É estranho.","BLACK OUT",8];titleFadeOut 4;
+
+
+=========================================================================================
+// UNIDADES INIMIGAS NÃO ATACAM ATÉ ENTRAR NA TRIGGER:
+NO LIDER DO GRUPO INIMIGO:
+{_x disableAI "TARGET"; _x disableAI "AUTOTARGET"; _x setBehaviour "CARELESS"} foreach units group this;op = group this;
+
+TRIGGER:
+CONDITION:
+(player findNearestEnemy position player) distance player < 30
+ON ACT.:
+op = (player findNearestEnemy position player);
+{_x enableAI "TARGET"; _x enableAI "AUTOTARGET"; _x setBehaviour "COMBAT"} forEach units group op;  
+
+
+=========================================================================================
+// UNIDADE ENTRAR NOS PRÉDIOS PRÓXIMOS.
+this setPos (nearestBuilding this buildingPos Random 8);
+
+=========================================================================================
+// SET AO RENDER INIMIGO
+hvt setCaptive true; removeAllWeapons hvt; hvt setBehaviour "CARELESS"; hvt disableAI "MOVE";captureTrigger attachTo [hvt,[0,0,0]];
+
+=========================================================================================
+// QUALQUER LUGAR NO MAPA COM CLICK
+INIT:
+onmapsingleclick "player setpos _pos";
+
+=========================================================================================
+// POSICIONAR UNIDADE NO MAPA:
+ this setpos [(getpos this select 0), (getpos this select 1), 14.3];
+
+=========================================================================================
+// COR DO ACTION
+this AddAction ["<t color=""#FA000C"">" +"Halo", "Halo\halo.sqf"];
+
+
+=========================================================================================
+// EXPLODIR IED
+TRIGGER: E ADICOINAR OBJETO COM NOME IED.
+bomb = "Bo_GBU12_lgb" createVehicle (getpos IED);deletevehicle IED;
+
+--> LISTA COM OS AMMO: https://community.bistudio.com/wiki/ArmA:_Weapons#Vehicle_Weapons
+
+=========================================================================================
+ANIMAÇÃO
+mocoBomba switchMove "RepairingKneel";
+mocoBomba playMove "RepairingKneel"; (Animação não interrompida)
+// corre pra frente e pula
+ActsPercMrunSlowWrflDf_TumbleOver
+// Abaixa e fica esperando
+ActsPercMstpSlowWrflDnon_listeningOrdersUnderFireShort
+// corre de lado e aponta a arma
+AmovPercMstpSlowWrflDnon_ActsPercMstpSlowWrflDr_HideFromFire
+// Corre e pula de lado
+AmovPercMstpSlowWrflDnon_ActsPpneMstpSlowWrflDr_GrenadeEscape
+// Anda lado outro... arma pra cima
+ActsPercMstpSlowWrflDnon_sceneNikitinDisloyalty_Kostey
+// Acena e corre abaixado
+ActsPercMstpSgthWmagDnon_sceneNikitinDisloyalty_USflashbang2
+// Cena pistola rendendo
+ActsPercMstpSnonWpstDnon_sceneBardakPistol02
+// Com rifle
+ActsPercMstpSnonWpstDnon_sceneBardakRifle02
+// conte de coisa... senta.. levanta
+miles1_c0start
+// Mão nas costas
+zevl1_c0start
+// braço cruzado
+zevl2_c0start
+// arma apontado para baixo
+zevl3bedna_c0start
+// parado esperando
+zevl5_c0start
+zevl7_c0start
+// Abaixa... aponta.. chama.. fica apontado
+i0_s3
+// para .. guarda
+c4coming2napa_begunov
+// guarda... arma largada na mão
+c4coming2cdf_genericstani1
+c4coming2cdf_genericstani2
+c4coming2cdf_genericstani3
+c4coming2cdf_genericstani4
+c4coming2cdf_genericstani5
+// Vibrando
+c7a_bravoTOerc_idle1
+c7a_bravoTOerc_idle2
+c7a_bravoTOerc_idle3
+c7a_bravoTOerc_idle5
+c7a_bravoTOerc_idle6
+c7a_bravoTOerc_idle7
+c7a_bravoTOerc_idle8 *
+//calmo
+c5calming_apc
+//Conversas
+AidlPercSlowWrflDnon_talkCalm
+AidlPercSlowWrflDnon_talkCalmB
+
+// ANIMAÇÃO COM LOOP
+nil = [this,"AidlPercSnonWnonDnon_talk2",false,true,false] execVM "animLoop.sqf";
+
+--> animLoop.sqf:
+
+_unit = _this select 0;
+_animation = _this select 1;
+_noWeapons = _this select 2;
+_switchMove = _this select 3;
+_allowDamage = _this select 4;
+
+_unit disableAI "ANIM";
+//_unit allowDamage _allowDamage;
+//_unit setDamage 0;
+_unit setVariable ["BIS_noCoreConversations", true];
+if (_noWeapons) then {removeAllWeapons _unit};
+
+sleep random 5;
+
+if (_switchMove) then {
+	while {true} do {
+		_unit switchMove _animation;
+		if (!alive _unit) exitWith {_unit enableAI "ANIM";_unit switchMove "";};
+		waitUntil {!(animationState _unit == _animation)};
+	};
+} else {
+	while {true} do {
+		_unit playMove _animation;
+		if (!alive _unit) exitWith {_unit enableAI "ANIM";_unit switchMove "";};
+		waitUntil {!(animationState _unit == _animation)};
+	};
+};

@@ -1,0 +1,127 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>Scrips para Arma 2</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+	<link rel="stylesheet" href="../css/bootstrap-theme.min.css">
+
+
+    <!-- Custom styles for this template -->
+    <link href="../css/starter-template.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="../js/ie-emulation-modes-warning.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Scrips para Arma 2</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="../sobre.html">Sobre</a></li>
+            <li><a href="../contato.html">Contato</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+
+      <div class="starter-template">
+	  <small>As páginas estão com problemas... trocar version=66 na URL. Exemplo: 65 ou 66 ou 62...</small></br>
+	  <a href="http://browser.six-projects.net/cfg_magazines/classlist">Lista de munições ACE</a></br>
+	  <a href="http://browser.six-projects.net/cfg_weapons?utf8=%E2%9C%93&version=66&commit=Save">Lista Armas ACE</a></br>
+	  <a href="http://browser.six-projects.net/cfg_weapons">Lista do ACE</a></br>
+	  <a href="https://community.bistudio.com/wiki/ArmA_2:_Weapons">Lista de Armas AO2</a></br>
+	  <a href="http://browser.six-projects.net/cfg_weapons/classlist?utf8=%E2%9C%93&version=63&commit=Change&options%5Bgroup_by%5D=weap_type&options%5Bcustom_type%5D=&options%5Bfaction%5D=">Classe de Armas AO2</a></br>
+	  </br></br>
+	 
+	  
+	  <pre>
+removeAllWeapons this;
+{this addMagazine "30Rnd_556x45_Stanag"} forEach [1,2,3,4,5,6];
+this addWeapon "M4A3_CCO_EP1";
+{this addMagazine "17Rnd_9x19_glock17"} forEach [1,2,3,4];
+this addWeapon "glock17_EP1";
+{this addMagazine "HandGrenade_West"} forEach [1,2,3,4];
+this addMagazine "SmokeShellGreen";
+this addMagazine "SmokeShellRed";
+this addWeapon "Binocular";
+this addWeapon "NVGoggles";
+this addWeapon "ItemGPS";
+</pre>
+<pre>
+removeAllWeapons this;
+{this addMagazine "30rnd_9x19_MP5SD"} forEach [1,2,3,4,5,6];
+{this addMagazine "PipeBomb"} forEach [1,2,3,4];
+this addWeapon "MP5SD";
+{this addMagazine "15Rnd_9x19_M9SD"} forEach [1,2,3,4];
+this addWeapon "M9SD";
+{this addMagazine "HandGrenade_West"} forEach [1,2,3,4];
+this addMagazine "SmokeShellGreen";
+this addMagazine "SmokeShellRed";
+this addWeapon "Binocular";
+this addWeapon "NVGoggles";
+this addWeapon "ItemGPS";
+</pre>
+<pre>
+removeAllWeapons this; for "_i" from 1 to 12 do {this addmagazine "smokeshell"};
+</pre>
+
+<pre>
+removeAllWeapons this; {this addmagazine "smokeshell"} foreach [1,2,3,4,5,6,7,8,9,10,11,12];
+</pre>
+ADICIONAR A TODOS OS SOLDADOS DA LISTA:</br>
+INIT.SQF
+<pre>
+pilot_array = [pilot_01, pilot_02, pilot_03, pilot_04, pilot_05, pilot_06, pilot_07, pilot_08, pilot_09, pilot_10, pilot_11, pilot_12, pilot_13];
+{
+  _o = _x;
+  removeAllWeapons _o;
+  for "_i" from 1 to 4 do {_o addmagazine "15Rnd_9x19_M9"};
+  {_o addweapon _x} foreach ["M9","Binocular","NVgoggles"];
+  for "_i" from 1 to 3 do {_o addmagazine "smokeshell"};
+} foreach pilot_array;
+</pre>
+      </div>
+
+    </div><!-- /.container -->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+  </body>
+</html>

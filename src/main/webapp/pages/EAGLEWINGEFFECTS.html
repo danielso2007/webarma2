@@ -1,0 +1,176 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>Scrips para Arma 2</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+	<link rel="stylesheet" href="../css/bootstrap-theme.min.css">
+
+
+    <!-- Custom styles for this template -->
+    <link href="../css/starter-template.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="../js/ie-emulation-modes-warning.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Scrips para Arma 2</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="../sobre.html">Sobre</a></li>
+            <li><a href="../contato.html">Contato</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+<strong>description.ext:</strong>
+<pre>
+#include "\ca\missions_EW\campaign\description_mission.hpp"
+</pre>
+<strong>
+init.sqf:
+</strong>
+<pre>
+execVM "screen.sqf";
+
+"colorCorrections" ppEffectAdjust [2, 30, 0, [0.0, 0.0, 0.0, 0.0], [0.8*2, 0.5*2, 0.0, 0.7], [0.9, 0.9, 0.9, 0.0]];
+"colorCorrections" ppEffectCommit 0;
+//"colorCorrections" ppEffectAdjust [1, 1, 0, [0.0, 0.0, 0.0, 0.0], [0.8*2, 0.5*2, 0.0, 0.7], [0.9, 0.9, 0.9, 0.0]];
+"colorCorrections" ppEffectAdjust [1, 0.8, -0.001, [0.0, 0.0, 0.0, 0.0], [0.8*2, 0.5*2, 0.0, 0.7], [0.9, 0.9, 0.9, 0.0]];  
+"colorCorrections" ppEffectCommit 3;
+"colorCorrections" ppEffectEnable true;
+"filmGrain" ppEffectEnable true; 
+"filmGrain" ppEffectAdjust [0.02, 1, 1, 0.1, 1, false];
+"filmGrain" ppEffectCommit 5;
+
+//--- Wind & Dust
+[] spawn {
+    waituntil {isplayer player};
+    setwind [0.201112,0.204166,true];
+    while {true} do {
+        _ran = ceil random 5;
+        playsound format ["wind_%1",_ran];
+        _obj = vehicle player;
+        _pos = position _obj;
+
+        //--- Dust
+            setwind [0.201112*2,0.204166*2,false];
+        _velocity = [random 10,random 10,-1];
+        _color = [1.0, 0.9, 0.8];
+        _alpha = 0.02 + random 0.02;
+        _ps = "#particlesource" createVehicleLocal _pos;  
+        _ps setParticleParams [["\Ca\Data\ParticleEffects\Universal\universal.p3d", 16, 12, 8], "", "Billboard", 1, 3, [0, 0, -6], _velocity, 1, 1.275, 1, 0, [9], [_color + [0], _color + [_alpha], _color + [0]], [1000], 1, 0, "", "", _obj];
+        _ps setParticleRandom [3, [30, 30, 0], [0, 0, 0], 1, 0, [0, 0, 0, 0.01], 0, 0];
+        _ps setParticleCircle [0.1, [0, 0, 0]];
+        _ps setDropInterval 0.01;
+
+        sleep (random 1);
+        deletevehicle _ps;
+        _delay = 10 + random 20;
+        sleep _delay;
+
+    };
+};
+
+//--- Ash
+[] spawn {
+    waituntil {isplayer player};
+    _pos = position player;
+    _parray = [
+    /* 00 */        ["\Ca\Data\ParticleEffects\Universal\Universal", 16, 12, 8, 1],//"\Ca\Data\cl_water",
+    /* 01 */        "",
+    /* 02 */        "Billboard",
+    /* 03 */        1,
+    /* 04 */        4,
+    /* 05 */        [0,0,0],
+    /* 06 */        [0,0,0],
+    /* 07 */        1,
+    /* 08 */        0.000001,
+    /* 09 */        0,
+    /* 10 */        1.4,
+    /* 11 */        [0.05,0.05],
+    /* 12 */        [[0.1,0.1,0.1,1]],
+    /* 13 */        [0,1],
+    /* 14 */        0.2,
+    /* 15 */        1.2,
+    /* 16 */        "",
+    /* 17 */        "",
+    /* 18 */        vehicle player
+    ];
+    _snow = "#particlesource" createVehicleLocal _pos;  
+    _snow setParticleParams _parray;
+    _snow setParticleRandom [0, [10, 10, 7], [0, 0, 0], 0, 0.01, [0, 0, 0, 0.1], 0, 0];
+    _snow setParticleCircle [0.0, [0, 0, 0]];
+    _snow setDropInterval 0.01;
+
+    _oldPlayer = vehicle player;
+    while {true} do {
+        waituntil {vehicle player != _oldPlayer};
+        _parray set [18,vehicle player];
+        _snow setParticleParams _parray;
+        _oldPlayer = vehicle player;
+    };
+};
+</pre>
+<strong>
+screen.sqf:</strong>
+<pre>
+screen = {
+
+sqf = [true] spawn bis_ew_fnc_screen;
+
+};
+
+
+while {true} do {
+    player spawn screen;
+    sleep 5;
+};
+</pre>
+      <div class="starter-template">
+        
+      </div>
+
+    </div><!-- /.container -->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+  </body>
+</html>
